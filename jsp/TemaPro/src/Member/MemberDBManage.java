@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 
 import Member.DBinfo.DBInfo;
 
-public class SignUp {
+public class MemberDBManage {
 	
-	public void SignUp(String mid,String rid,String userid,String upasswd,String uname,String regdate) {
+	public void SignUp(String userid,String upasswd,String uname,String regdate) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -19,16 +19,15 @@ public class SignUp {
 			pstmt = conn.prepareStatement(
 					"INSERT INTO "+ 
 					"member_list "+
-					"(mid,rid,userid,upasswd,uname,regdate)"+
+					"(userid,upasswd,uname,regdate)"+
 					"VALUES "+
-					"(?,?,?,?,?,?)");
+					"(?,?,?,?)");
 			
-			pstmt.setString(1,mid);
-			pstmt.setString(2,rid);
-			pstmt.setString(3,userid);
-			pstmt.setString(4,upasswd);
-			pstmt.setString(5,uname);
-			pstmt.setString(6,"2021-05-24");
+
+			pstmt.setString(1,userid);
+			pstmt.setString(2,upasswd);
+			pstmt.setString(3,uname);
+			pstmt.setString(4,regdate);
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -42,8 +41,7 @@ public class SignUp {
 			}
 		}
 	}
-	public MemberInfo ckLogin(String userid,String upasswd) {
-		MemberInfo mem = null;
+	public int ckLogin(String userid,String upasswd) {
 		
 		Connection conn =  null;	// DB ¿¬°á°´Ã¼
 		PreparedStatement pstmt = null;
@@ -55,13 +53,16 @@ public class SignUp {
 			conn = DriverManager.getConnection(DBInfo.mysql_url, DBInfo.mysql_id, DBInfo.mysql_pw);
 			pstmt = conn.prepareStatement(""
 							+ "SELECT upasswd FROM charge.member_list " 
-							+ " WHERE ID=?"
+							+ " WHERE userid=?"
 							+ "");
 			pstmt.setString(1, userid);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				if(rs.getString(1).equals(upasswd)) {
-					
+					return 1;
+				}
+				else {
+					return 0;
 				}
 			}
 		}catch (Exception e) {
@@ -76,7 +77,7 @@ public class SignUp {
 				
 			}
 		}
-		return mem;
+		return -1;
 	}
 
 }

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<form action="Login_proc.jsp" method="get">
+		<form action="LoginAction.jsp" method="get">
 			<div class="form-group">
 				<label for="id">아이디</label>
 				<input type="text" name="id" id="id" class="form-control"/>
@@ -16,6 +16,8 @@
 				<label for="pw">비밀번호</label>
 				<input type="text" name="pw" id="pw" class="form-control"/>
 			</div>
+			<input type="submit" value="로그인" class="btn btn-primary"/>
+		</form>
 		</form>
 </body>
 </html>
